@@ -24,6 +24,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use('/users', require('./routes/user.routes'));
+app.use('/tasks', require('./routes/task.routes'));
 
 const port = process.env.PORT || 5000;
 

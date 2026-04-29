@@ -32,7 +32,7 @@ exports.getTasks = async (req, res, next) => {
     }
 
     if (search) {
-      query.text = {
+      query.title = {
         $regex: search,
         $options: "i", // case-insensitive
       };
@@ -40,7 +40,7 @@ exports.getTasks = async (req, res, next) => {
 
     // 3. Execute queries in parallel
     const [tasks, total] = await Promise.all([
-      Task.find(query).select("text status").skip(skip).limit(limitNum).lean(),
+      Task.find(query).select("title status").skip(skip).limit(limitNum).lean(),
 
       Task.countDocuments(query),
     ]);
@@ -107,6 +107,7 @@ exports.updateTask = async (req, res, next) => {
     if (keys.length > 0) {
       await redisClient.del(keys);
     }
+    res.json(updated);
   } catch (err) {
     next(err);
   }
